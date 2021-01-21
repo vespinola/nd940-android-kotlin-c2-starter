@@ -5,20 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.Constants
-import com.udacity.asteroidradar.api.ApodApi
-import com.udacity.asteroidradar.api.NetworkApod
+import com.udacity.asteroidradar.api.PictureOfDayApi
+import com.udacity.asteroidradar.api.NetworkPictureOfDay
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class MainViewModel : ViewModel() {
-    private val _apod = MutableLiveData<NetworkApod>()
-    val apod: LiveData<NetworkApod>
+    private val _apod = MutableLiveData<NetworkPictureOfDay>()
+    val apod: LiveData<NetworkPictureOfDay>
         get() = _apod
 
     fun getApod() {
         viewModelScope.launch {
             try {
-                val apod = ApodApi.retrofitService.getApod(Constants.API_KEY)
+                val apod = PictureOfDayApi.RETROFIT_SERVICE.getApod(Constants.API_KEY)
 
                 if (apod.mediaType == "image") {
                     _apod.value = apod
