@@ -6,6 +6,7 @@ import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.api.PictureOfDayApi
 import com.udacity.asteroidradar.api.NetworkPictureOfDay
 import com.udacity.asteroidradar.database.getDatabase
+import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -18,6 +19,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _pictureOfDay = MutableLiveData<NetworkPictureOfDay>()
     val pictureOfDay: LiveData<NetworkPictureOfDay>
         get() = _pictureOfDay
+
+    private val _navigateToDetail = MutableLiveData<Asteroid>()
+    val navigateToDetail: LiveData<Asteroid>
+        get() = _navigateToDetail
 
     val asteroids = repository.asteroids
 
@@ -41,6 +46,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 _pictureOfDay.value = null
             }
         }
+    }
+
+    fun onAsteroidClicked(asteroid: Asteroid) {
+        _navigateToDetail.value = asteroid
+    }
+
+    fun onAsteroidNavigated() {
+        _navigateToDetail.value = null
     }
 
     class Factory(private val application: Application) : ViewModelProvider.Factory {

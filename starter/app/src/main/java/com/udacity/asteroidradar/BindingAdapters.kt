@@ -51,9 +51,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 
         val builder = Picasso.Builder(imgView.context)
                 .listener { _, _, exception ->
-                    exception?.let {
-                        imgView.visibility = View.GONE
-                    }
+                    exception?.printStackTrace()
                 }
 
         builder.build()

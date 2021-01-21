@@ -37,8 +37,8 @@ class AsteroidAdapter(private val listener: Listener): ListAdapter<Asteroid, Ast
         holder.bind(listener, item)
     }
 
-    class Listener(val clickListener: (sleepId: Long) -> Unit) {
-        fun onClick(asteroid: Asteroid) = clickListener(asteroid.id)
+    class Listener(val clickListener: (sleepId: Asteroid) -> Unit) {
+        fun onClick(asteroid: Asteroid) = clickListener(asteroid)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Asteroid>() {
