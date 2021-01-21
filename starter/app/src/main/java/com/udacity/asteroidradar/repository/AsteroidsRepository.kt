@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 class AsteroidsRepository(private val database: AsteroidDatabase) {
     suspend fun refresh() {
         withContext(Dispatchers.IO) {
-            val asteroids = AsteroidApi.retrofitService.getAsteroids(
+            val asteroids = AsteroidApi.Service.getAsteroids(
                     startDate = "",
                     endDate = "",
                     apiKey = Constants.API_KEY

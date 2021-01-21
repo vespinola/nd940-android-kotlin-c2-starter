@@ -17,7 +17,7 @@ interface PictureOfDayService {
 }
 
 object PictureOfDayApi {
-    val RETROFIT_SERVICE: PictureOfDayService by lazy { retrofit.create(PictureOfDayService::class.java) }
+    val service: PictureOfDayService by lazy { retrofit.create(PictureOfDayService::class.java) }
 }
 
 private val moshi = Moshi.Builder()

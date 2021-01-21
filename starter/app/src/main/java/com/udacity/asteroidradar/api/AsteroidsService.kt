@@ -21,7 +21,7 @@ interface AsteroidsService {
 }
 
 object AsteroidApi {
-    val retrofitService: AsteroidsService by lazy { retrofit.create(AsteroidsService::class.java) }
+    val Service: AsteroidsService by lazy { retrofit.create(AsteroidsService::class.java) }
 }
 
 private val retrofit = Retrofit.Builder()

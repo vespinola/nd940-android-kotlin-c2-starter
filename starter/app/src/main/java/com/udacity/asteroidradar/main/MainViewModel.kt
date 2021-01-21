@@ -18,7 +18,7 @@ class MainViewModel : ViewModel() {
     fun getApod() {
         viewModelScope.launch {
             try {
-                val apod = PictureOfDayApi.RETROFIT_SERVICE.getPictureOfDay(Constants.API_KEY)
+                val apod = PictureOfDayApi.service.getPictureOfDay(Constants.API_KEY)
 
                 if (apod.mediaType == "image") {
                     _apod.value = apod
