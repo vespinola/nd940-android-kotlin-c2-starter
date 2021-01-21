@@ -1,7 +1,7 @@
 package com.udacity.asteroidradar.api
 
 import com.squareup.moshi.Json
-import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.database.DatabaseAsteroid
 
 data class NearEarthObject (

@@ -14,7 +14,7 @@ interface ApodService {
     @GET("planetary/apod")
     suspend fun getApod(
             @Query("api_key") apiKey: String
-    ): Deferred<Apod>
+    ): NetworkApod
 }
 
 object ApodApi {
@@ -29,4 +29,5 @@ private val retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .client(getClient())
         .build()
