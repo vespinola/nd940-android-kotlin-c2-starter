@@ -1,31 +1,56 @@
 package com.udacity.asteroidradar.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.api.PictureOfDayApi
 import com.udacity.asteroidradar.api.NetworkPictureOfDay
+import com.udacity.asteroidradar.database.getDatabase
+import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class MainViewModel : ViewModel() {
-    private val _apod = MutableLiveData<NetworkPictureOfDay>()
-    val apod: LiveData<NetworkPictureOfDay>
-        get() = _apod
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    fun getApod() {
+    private val database = getDatabase(application.applicationContext)
+    private val repository = AsteroidsRepository(database)
+
+    private val _pictureOfDay = MutableLiveData<NetworkPictureOfDay>()
+    val pictureOfDay: LiveData<NetworkPictureOfDay>
+        get() = _pictureOfDay
+
+    val asteroids = repository.asteroids
+
+    init {
+        getPictureOfDay()
+
+        viewModelScope.launch {
+            repository.refreshAsteroids()
+        }
+    }
+
+    private fun getPictureOfDay() {
         viewModelScope.launch {
             try {
                 val apod = PictureOfDayApi.service.getPictureOfDay(Constants.API_KEY)
 
                 if (apod.mediaType == "image") {
-                    _apod.value = apod
+                    _pictureOfDay.value = apod
                 }
             } catch (e: Exception) {
-                _apod.value = null
+                _pictureOfDay.value = null
             }
         }
+    }
+
+    class Factory(private val application: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(application) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewModel")
+        }
+
     }
 }

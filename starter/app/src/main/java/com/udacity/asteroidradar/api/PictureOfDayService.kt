@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface PictureOfDayService {
     @GET("planetary/apod")
     suspend fun getPictureOfDay(
-            @Query("api_key") apiKey: String
+            @Query("api_key") apiKey: String = Constants.API_KEY
     ): NetworkPictureOfDay
 }
 

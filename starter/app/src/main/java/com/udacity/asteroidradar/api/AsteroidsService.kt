@@ -14,18 +14,17 @@ import retrofit2.http.Query
 interface AsteroidsService {
     @GET("neo/rest/v1/feed")
     suspend fun getAsteroids(
-        @Query("start_date") startDate: String,
-        @Query("end_date") endDate: String,
-        @Query("api_key") apiKey: String
-    ): Deferred<String>
+        @Query("api_key") apiKey: String = Constants.API_KEY
+    ): String
 }
 
 object AsteroidApi {
-    val Service: AsteroidsService by lazy { retrofit.create(AsteroidsService::class.java) }
+    val service: AsteroidsService by lazy { retrofit.create(AsteroidsService::class.java) }
 }
 
 private val retrofit = Retrofit.Builder()
     .baseUrl(Constants.BASE_URL)
     .addConverterFactory(ScalarsConverterFactory.create())
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
+    .client(getClient())
     .build()
