@@ -27,7 +27,8 @@ class AsteroidApplication: Application() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     setRequiresDeviceIdle(true)
                 }
-            }.build()
+            }
+            .build()
 
         val repeatingRequest
                 = PeriodicWorkRequestBuilder<RefreshDataWorker>(1, TimeUnit.DAYS)
