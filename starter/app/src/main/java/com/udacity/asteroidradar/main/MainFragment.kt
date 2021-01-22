@@ -41,7 +41,7 @@ class MainFragment : Fragment() {
 
         binding.asteroidRecycler.adapter = adapter
 
-        viewModel.asteroids.observe(viewLifecycleOwner, Observer {
+        viewModel.asteroids.observe(viewLifecycleOwner, {
             it?.let {
                 adapter.submitList(it)
             }

@@ -1,7 +1,6 @@
 package com.udacity.asteroidradar.api
 
 import com.squareup.moshi.Json
-import com.udacity.asteroidradar.domain.PictureOfDay
 
 data class NetworkPictureOfDay (
         val title: String,
