@@ -5,14 +5,14 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.database.DatabaseAsteroid
-import com.udacity.asteroidradar.database.getDatabase
+import com.udacity.asteroidradar.api.AsteroidApiFilter
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
+
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -23,7 +23,7 @@ class MainFragment : Fragment() {
 
         val viewModelFactory = MainViewModel.Factory(application)
 
-        val viewModel = ViewModelProvider(this, viewModelFactory)
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
@@ -58,6 +58,13 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.updateList(
+                when(item.itemId) {
+                    R.id.show_weekly_menu -> AsteroidApiFilter.WEEKLY
+                    R.id.show_today_menu -> AsteroidApiFilter.TODAY
+                    else -> AsteroidApiFilter.SAVED
+                }
+        )
         return true
     }
 }

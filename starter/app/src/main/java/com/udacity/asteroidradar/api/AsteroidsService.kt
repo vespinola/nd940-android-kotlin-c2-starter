@@ -13,7 +13,7 @@ import retrofit2.http.Query
 
 enum class AsteroidApiFilter(val value: String) {
     TODAY("today"),
-    WEEK("week"),
+    WEEKLY("week"),
     SAVED("saved"),
 }
 

@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.main
 import android.app.Application
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.api.AsteroidApiFilter
 import com.udacity.asteroidradar.api.PictureOfDayApi
 import com.udacity.asteroidradar.api.NetworkPictureOfDay
 import com.udacity.asteroidradar.database.getDatabase
@@ -24,7 +25,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val navigateToDetail: LiveData<Asteroid>
         get() = _navigateToDetail
 
-    val asteroids = repository.asteroids
+    private val _filterType = MutableLiveData<AsteroidApiFilter>()
 
     init {
         getPictureOfDay()
@@ -32,6 +33,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             repository.refreshAsteroids()
         }
+
+        updateList(AsteroidApiFilter.SAVED)
+    }
+
+    val asteroids = Transformations.switchMap(_filterType) {
+        when(it) {
+            AsteroidApiFilter.WEEKLY -> {
+                repository.weeklyAsteroids
+            }
+            AsteroidApiFilter.TODAY -> {
+                repository.todayAsteroids
+            }
+            else -> {
+                repository.asteroids
+            }
+        }
+    }
+
+    fun updateList(filter: AsteroidApiFilter) {
+        _filterType.value = filter
     }
 
     private fun getPictureOfDay() {

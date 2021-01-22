@@ -12,7 +12,7 @@ interface AsteroidDao {
     @Query("select * from databaseasteroid where closeApproachDate = :date")
     fun getTodayAsteroids(date: String): LiveData<List<DatabaseAsteroid>>
 
-    @Query("select * from databaseasteroid where closeApproachDate between :startDate and :endDate")
+    @Query("select * from databaseasteroid where closeApproachDate between :startDate and :endDate order by closeApproachDate")
     fun getWeeklyAsteroids(startDate: String, endDate: String): LiveData<List<DatabaseAsteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
