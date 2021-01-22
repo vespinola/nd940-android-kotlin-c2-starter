@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Apod(
+class PictureOfDay(
         val title: String,
         val url: String,
         val mediaType: String,
